@@ -36,7 +36,6 @@ class ViewController: UIViewController {
         let region = MKCoordinateRegionMakeWithDistance(location, 2000.0, 4000.3)
         myMapView.setRegion(region, animated: true)
     }
-
     
 }
 
