@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var myMapView: MKMapView!
     override func viewDidLoad() {
@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         let g = ViewPoint(coordinate: CLLocationCoordinate2D(latitude: 35.133176, longitude: 129.120684), title: "동생말 전망대", subtitle: "광안리, 해운대 보기")
         myMapView.addAnnotations([a, b, c, d, e, f, g])
         
+        myMapView.delegate = self
+        
     }
     
     func zoomToRegion() {
@@ -35,6 +37,28 @@ class ViewController: UIViewController {
         let location = CLLocationCoordinate2D(latitude: 35.118002, longitude: 129.121017)
         let region = MKCoordinateRegionMakeWithDistance(location, 2000.0, 4000.3)
         myMapView.setRegion(region, animated: true)
+    }
+    
+    // MKMapViewDelegate method
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "myPin"
+        
+        // an already allocated annotation view
+        var annotationView = myMapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            let btn = UIButton(type: .detailDisclosure)
+            annotationView?.rightCalloutAccessoryView = btn
+            //annotationView?.pinTintColor = UIColor.green
+            annotationView?.animatesDrop = true
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        return annotationView
+       
     }
     
 }
