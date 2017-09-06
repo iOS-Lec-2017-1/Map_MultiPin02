@@ -61,5 +61,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
        
     }
     
+    // callout accessary를 눌렀을때 alert View 보여줌
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let viewAnno = view.annotation //as! ViewPoint
+        let placeName = viewAnno?.title
+        let placeInfo = viewAnno?.subtitle
+        
+        let ac = UIAlertController(title: placeName!, message: placeInfo!, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true, completion: nil)
+    }
 }
 
